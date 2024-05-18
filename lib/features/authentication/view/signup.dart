@@ -4,8 +4,10 @@ import 'package:inlaks_attendance_app/core/utils/custom_colors.dart';
 import 'package:inlaks_attendance_app/core/widgets/form_widget.dart';
 import 'package:inlaks_attendance_app/core/widgets/generic_button.dart';
 import 'package:inlaks_attendance_app/core/widgets/text_widgets.dart';
+import 'package:inlaks_attendance_app/features/authentication/view/login.dart';
 
 class SignUpScreen extends StatefulWidget {
+  static const String id = '/singup';
   const SignUpScreen({super.key});
 
   @override
@@ -133,8 +135,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           height: 40,
                         ),
                         GenericButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              LoginScreen.id,
+                            );
+                          },
                           text: 'Continue',
+                        ),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              LoginScreen.id,
+                            );
+                          },
+                          child: const Text('Already have an account? Login'),
                         ),
                       ],
                     ),

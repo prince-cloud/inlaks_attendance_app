@@ -4,8 +4,10 @@ import 'package:inlaks_attendance_app/core/utils/custom_colors.dart';
 import 'package:inlaks_attendance_app/core/widgets/form_widget.dart';
 import 'package:inlaks_attendance_app/core/widgets/generic_button.dart';
 import 'package:inlaks_attendance_app/core/widgets/text_widgets.dart';
+import 'package:inlaks_attendance_app/features/authentication/view/signup.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const String id = '/login';
   const LoginScreen({super.key});
 
   @override
@@ -94,13 +96,27 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 40,
                           ),
                           GenericButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                SignUpScreen.id,
+                              );
+                            },
                             text: 'Continue',
                           ),
                           const SizedBox(
                             height: 40,
                           ),
-                          const Text('Already Have an account? Login'),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                SignUpScreen.id,
+                              );
+                            },
+                            child:
+                                const Text('Don\'t have an account? Sign Up'),
+                          ),
                         ],
                       ),
                     ),
@@ -110,10 +126,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ],
         ),
-        // bottomSheet: GenericButton(
-        //   onPressed: () {},
-        //   text: 'Continue',
-        // ),
       ),
     );
   }
