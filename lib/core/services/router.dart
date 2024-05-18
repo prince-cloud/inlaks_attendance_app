@@ -17,12 +17,12 @@ PageRouteBuilder<dynamic> _pageBuilder(
           LoginScreen.id,
           SignUpScreen.id,
         ];
-        if (!state.isLoggedIn && !possibleAuthRoutes.contains(settings.name)) {
+        if (state.isLoggedIn && !possibleAuthRoutes.contains(settings.name)) {
           WidgetsBinding.instance.addPostFrameCallback((_) async {
             Future<void> recursive() async {
               if (!context.debugDoingBuild && context.mounted) {
                 await Navigator.of(context).pushNamedAndRemoveUntil(
-                  SignUpScreen.id,
+                  LoginScreen.id,
                   (route) => false,
                   arguments: 'Session expired. Please login again.',
                 );
@@ -43,6 +43,7 @@ PageRouteBuilder<dynamic> _pageBuilder(
           });
           return const SizedBox();
         }
+        print("=== page: $page");
         return page;
       },
     ),
@@ -60,6 +61,16 @@ PageRouteBuilder<dynamic> _customRoutes(RouteSettings settings) {
     case SignUpScreen.id:
       return _pageBuilder(
         const SignUpScreen(),
+        settings: settings,
+      );
+    case Dashboard.id:
+      return _pageBuilder(
+        const Dashboard(),
+        settings: settings,
+      );
+    case MainPage.id:
+      return _pageBuilder(
+        const MainPage(),
         settings: settings,
       );
 

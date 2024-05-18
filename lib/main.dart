@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:inlaks_attendance_app/core/services/router.imports.dart';
 import 'package:inlaks_attendance_app/core/utils/fonts.dart';
-import 'package:inlaks_attendance_app/features/authentication/view/login.dart';
+import 'package:inlaks_attendance_app/features/authentication/provider/auth_provider.dart';
 import 'package:inlaks_attendance_app/features/authentication/view/session_state.dart';
-import 'package:inlaks_attendance_app/features/authentication/view/signup.dart';
+import 'package:inlaks_attendance_app/main_auth_check.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -19,6 +19,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => SessionState()),
+        ChangeNotifierProvider<AuthProvider>(
+          create: (context) => AuthProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -28,7 +31,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: false,
         ),
-        home: const LoginScreen(),
+        home: const MainAuthCheck(),
         onGenerateRoute: generateRoute,
       ),
     );

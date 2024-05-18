@@ -5,9 +5,10 @@ import 'package:inlaks_attendance_app/core/widgets/form_widget.dart';
 import 'package:inlaks_attendance_app/core/widgets/generic_button.dart';
 import 'package:inlaks_attendance_app/core/widgets/text_widgets.dart';
 import 'package:inlaks_attendance_app/features/authentication/view/signup.dart';
+import 'package:inlaks_attendance_app/main_page.dart';
 
 class LoginScreen extends StatefulWidget {
-  static const String id = '/login';
+  static const id = '/login';
   const LoginScreen({super.key});
 
   @override
@@ -99,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {
                               Navigator.pushNamed(
                                 context,
-                                SignUpScreen.id,
+                                MainPage.id,
                               );
                             },
                             text: 'Continue',

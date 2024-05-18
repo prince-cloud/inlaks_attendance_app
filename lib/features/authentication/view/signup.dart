@@ -7,7 +7,7 @@ import 'package:inlaks_attendance_app/core/widgets/text_widgets.dart';
 import 'package:inlaks_attendance_app/features/authentication/view/login.dart';
 
 class SignUpScreen extends StatefulWidget {
-  static const String id = '/singup';
+  static const id = '/signup';
   const SignUpScreen({super.key});
 
   @override
