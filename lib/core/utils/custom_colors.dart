@@ -64,4 +64,5 @@ GENERIC COLOR CODES
   static Color genericRed = const Color(0XFFD10E30);
   static Color genericText = const Color(0XFF474747);
   static Color genericBlack = const Color(0XFF18171F);
+  static Color scaffoldBackgroundColor = const Color(0Xfff3f6fa);
 }

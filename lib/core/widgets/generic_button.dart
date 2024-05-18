@@ -5,6 +5,8 @@ import 'package:inlaks_attendance_app/core/utils/fonts.dart';
 class GenericButton extends StatelessWidget {
   final Color? backgroundColor;
   final String text;
+  final Widget? icon;
+  final Size? cs;
   final void Function() onPressed;
   const GenericButton({
     super.key,
@@ -12,9 +14,8 @@ class GenericButton extends StatelessWidget {
     this.backgroundColor,
     required this.text,
     required this.onPressed,
+    this.icon,
   });
-
-  final Size? cs;
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +36,19 @@ class GenericButton extends StatelessWidget {
           backgroundColor: backgroundColor ?? CustomColors.primaryColor,
         ),
         onPressed: onPressed,
-        child: Text(
-          text,
-          style: const TextStyle(
-            fontSize: 16,
-            fontFamily: Fonts.urbanist,
-          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            icon ?? const SizedBox.shrink(),
+            SizedBox(width: icon != null ? 10 : 0),
+            Text(
+              text,
+              style: const TextStyle(
+                fontSize: 16,
+                fontFamily: Fonts.urbanist,
+              ),
+            ),
+          ],
         ),
       ),
     );

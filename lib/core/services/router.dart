@@ -43,7 +43,6 @@ PageRouteBuilder<dynamic> _pageBuilder(
           });
           return const SizedBox();
         }
-        print("=== page: $page");
         return page;
       },
     ),

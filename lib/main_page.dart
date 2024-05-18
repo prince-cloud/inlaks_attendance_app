@@ -79,7 +79,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       floatingActionButton: GestureDetector(
         onTap: () {},
         child: const CircleAvatar(
-          radius: 40,
+          radius: 35,
           child: Icon(
             size: 40,
             CupertinoIcons.qrcode_viewfinder,
@@ -94,7 +94,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
           CupertinoIcons.square_stack_3d_up,
           CupertinoIcons.profile_circled,
         ],
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: CustomColors.scaffoldBackgroundColor,
         splashRadius: 0,
         splashColor: Colors.transparent,
         activeIndex: currentIndex,
