@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:inlaks_attendance_app/core/utils/custom_colors.dart';
 import 'package:inlaks_attendance_app/core/utils/fonts.dart';
 import 'package:inlaks_attendance_app/core/widgets/generic_button.dart';
+import 'package:inlaks_attendance_app/features/check_in/view/qr_scanner.dart';
 
 class Dashboard extends StatefulWidget {
   static const id = '/dashboard';
@@ -19,6 +20,9 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       body: ListView(
         children: [
+          const SizedBox(
+            height: 10,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
@@ -106,7 +110,10 @@ class _DashboardState extends State<Dashboard> {
                       ),
                       GenericButton(
                         text: 'Check Out',
-                        onPressed: () {},
+                        onPressed: () => Navigator.pushNamed(
+                          context,
+                          QrScanner.id,
+                        ),
                         icon: const Icon(CupertinoIcons.qrcode),
                         backgroundColor: CustomColors.genericRed,
                       ),

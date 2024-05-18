@@ -72,6 +72,11 @@ PageRouteBuilder<dynamic> _customRoutes(RouteSettings settings) {
         const MainPage(),
         settings: settings,
       );
+    case QrScanner.id:
+      return _pageBuilder(
+        const QrScanner(),
+        settings: settings,
+      );
 
     default:
       return _pageBuilder(
