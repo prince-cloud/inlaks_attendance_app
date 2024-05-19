@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           GenericFormField(
                             controller: controller,
-                            lableText: 'Email',
+                            lableText: 'Work Email',
                             hintText: 'e.g pacheamnpong@inlaks.com',
                             prefixIcon: const Icon(
                               CupertinoIcons.mail_solid,

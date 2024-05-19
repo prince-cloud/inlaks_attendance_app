@@ -109,7 +109,7 @@ class _DashboardState extends State<Dashboard> {
                         height: 20,
                       ),
                       GenericButton(
-                        text: 'Check Out',
+                        text: 'Clock Out',
                         onPressed: () => Navigator.pushNamed(
                           context,
                           QrScanner.id,
@@ -202,7 +202,7 @@ class _DashboardState extends State<Dashboard> {
                   width: cs.width * 0.2,
                   child: Center(
                     child: Text(
-                      'Check In',
+                      'Clock In',
                       style: TextStyle(
                         color: CustomColors.genericWhite,
                       ),
@@ -213,7 +213,7 @@ class _DashboardState extends State<Dashboard> {
                   width: cs.width * 0.2,
                   child: Center(
                     child: Text(
-                      'Check Out',
+                      'Clock Out',
                       style: TextStyle(
                         color: CustomColors.genericWhite,
                       ),

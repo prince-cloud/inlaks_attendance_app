@@ -82,7 +82,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         GenericFormField(
                           controller: controller,
-                          lableText: 'Email',
+                          lableText: 'Work Email',
                           hintText: 'e.g pacheamnpong@inlaks.com',
                         ),
                         GenericFormField(
@@ -162,10 +162,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
           ],
         ),
-        // bottomSheet: GenericButton(
-        //   onPressed: () {},
-        //   text: 'Continue',
-        // ),
       ),
     );
   }

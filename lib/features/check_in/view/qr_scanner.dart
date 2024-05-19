@@ -33,6 +33,7 @@ class _QrScannerState extends State<QrScanner> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
+      print('=== listening on data stream: $scanData');
       setState(() {
         result = scanData;
       });
@@ -67,7 +68,11 @@ class _QrScannerState extends State<QrScanner> {
             child: Center(
               child: (result != null)
                   ? Text(
-                      'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                      'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )
                   : const Text('Scan a code'),
             ),
           )

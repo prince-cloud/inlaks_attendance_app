@@ -6,6 +6,7 @@ import 'package:inlaks_attendance_app/core/utils/custom_colors.dart';
 import 'package:inlaks_attendance_app/features/authentication/provider/auth_provider.dart';
 import 'package:inlaks_attendance_app/features/check_in/view/qr_scanner.dart';
 import 'package:inlaks_attendance_app/features/dashboard/view/dashboard.dart';
+import 'package:inlaks_attendance_app/features/task_planner/view/tasks_list.dart';
 import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
@@ -20,7 +21,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   List pages = const [
     Dashboard(),
     Dashboard(),
-    Dashboard(),
+    TaskList(),
     Dashboard(),
   ];
   int currentIndex = 0;
@@ -77,19 +78,30 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       body: pages[currentIndex],
-      floatingActionButton: GestureDetector(
-        onTap: () => Navigator.pushNamed(
-          context,
-          QrScanner.id,
-        ),
-        child: const CircleAvatar(
-          radius: 35,
-          child: Icon(
-            size: 40,
-            CupertinoIcons.qrcode_viewfinder,
-          ),
-        ),
-      ),
+      floatingActionButton: currentIndex == 2
+          ? GestureDetector(
+              onTap: () {},
+              child: const CircleAvatar(
+                radius: 35,
+                child: Icon(
+                  size: 30,
+                  CupertinoIcons.plus,
+                ),
+              ),
+            )
+          : GestureDetector(
+              onTap: () => Navigator.pushNamed(
+                context,
+                QrScanner.id,
+              ),
+              child: const CircleAvatar(
+                radius: 35,
+                child: Icon(
+                  size: 40,
+                  CupertinoIcons.qrcode_viewfinder,
+                ),
+              ),
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar(
         icons: const [
