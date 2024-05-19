@@ -130,56 +130,24 @@ class _DashboardState extends State<Dashboard> {
             height: 30,
           ),
           const Center(
-            child: Text(
-              'My Attendance',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                fontFamily: Fonts.poppins,
-              ),
+            child: Column(
+              children: [
+                Text(
+                  'My Attendance',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: Fonts.poppins,
+                  ),
+                ),
+                Text(
+                  'Last 7 days',
+                ),
+              ],
             ),
           ),
           const SizedBox(
             height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Icon(
-                CupertinoIcons.arrow_left,
-                color: CustomColors.genericBlack.withAlpha(100),
-              ),
-              Text(
-                'April',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                  color: CustomColors.genericBlack.withAlpha(100),
-                ),
-              ),
-              const Text(
-                'May',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
-                ),
-              ),
-              Text(
-                'June',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                  color: CustomColors.genericBlack.withAlpha(100),
-                ),
-              ),
-              Icon(
-                CupertinoIcons.arrow_right,
-                color: CustomColors.genericBlack.withAlpha(100),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 10,
           ),
           Container(
             color: CustomColors.primaryColor,

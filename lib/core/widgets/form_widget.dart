@@ -12,6 +12,7 @@ class GenericFormField extends StatefulWidget {
     this.suffixIcon,
     this.enabled,
     this.onTap,
+    this.obscure,
   });
 
   final Icon? prefixIcon;
@@ -20,6 +21,7 @@ class GenericFormField extends StatefulWidget {
   final String? hintText;
   final Icon? suffixIcon;
   final bool? enabled;
+  final bool? obscure;
 
   final void Function()? onTap;
 
@@ -41,6 +43,7 @@ class _GenericFormFieldState extends State<GenericFormField> {
             fontFamily: Fonts.urbanist,
           ),
           controller: widget.controller,
+          obscureText: widget.obscure ?? false,
           decoration: InputDecoration(
             enabled: widget.enabled ?? true,
             labelText: widget.lableText,

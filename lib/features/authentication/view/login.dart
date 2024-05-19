@@ -1,11 +1,20 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:inlaks_attendance_app/core/chache/local_cache.dart';
 import 'package:inlaks_attendance_app/core/utils/custom_colors.dart';
+import 'package:inlaks_attendance_app/core/widgets/error_dialogue.dart';
 import 'package:inlaks_attendance_app/core/widgets/form_widget.dart';
 import 'package:inlaks_attendance_app/core/widgets/generic_button.dart';
+import 'package:inlaks_attendance_app/core/widgets/loading_widget.dart';
+import 'package:inlaks_attendance_app/core/widgets/success_pop_up.dart';
 import 'package:inlaks_attendance_app/core/widgets/text_widgets.dart';
+import 'package:inlaks_attendance_app/features/authentication/data/models/user_model.dart';
+import 'package:inlaks_attendance_app/features/authentication/data/repository/auth_repository.dart';
+import 'package:inlaks_attendance_app/features/authentication/provider/auth_provider.dart';
 import 'package:inlaks_attendance_app/features/authentication/view/signup.dart';
 import 'package:inlaks_attendance_app/main_page.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   static const id = '/login';
@@ -17,7 +26,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController controller = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           GenericFormField(
-                            controller: controller,
+                            controller: emailController,
                             lableText: 'Work Email',
                             hintText: 'e.g pacheamnpong@inlaks.com',
                             prefixIcon: const Icon(
@@ -79,12 +89,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           GenericFormField(
-                            controller: controller,
+                            controller: passwordController,
                             lableText: 'Password',
                             hintText: '* * * *',
                             prefixIcon: const Icon(
                               CupertinoIcons.lock_circle_fill,
                             ),
+                            obscure: true,
                           ),
                           const SizedBox(
                             height: 5,
@@ -97,11 +108,63 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 40,
                           ),
                           GenericButton(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                context,
-                                MainPage.id,
-                              );
+                            onPressed: () async {
+                              toggleIsLoading(context, true);
+                              try {
+                                final response =
+                                    await AuthenticationRepository.login(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                );
+
+                                if (response.containsKey('access')) {
+                                  if (!context.mounted) return;
+                                  AuthProvider authProvider =
+                                      context.read<AuthProvider>();
+                                  authProvider.logIn(
+                                    token: response["access"] as String,
+                                    isLoggedIn: true,
+                                    user: User.fromMap(
+                                      response['user'] as Map<String, dynamic>,
+                                    ),
+                                  );
+
+                                  LocalCache.setAuthData(response);
+                                  secureStorage.write(
+                                    key: "loggedInBefore",
+                                    value: true.toString(),
+                                  );
+
+                                  toggleIsLoading(context, false);
+
+                                  Navigator.pushNamed(
+                                    context,
+                                    MainPage.id,
+                                  );
+                                  showSuccessPopUp(
+                                    content: "Succesffully loged In.",
+                                    context: context,
+                                    position: FlushbarPosition.TOP,
+                                  );
+                                  return;
+                                } else {
+                                  if (!context.mounted) return;
+
+                                  toggleIsLoading(context, false);
+
+                                  response.forEach((key, value) {
+                                    if (!mounted) return;
+                                    showErrorPopUp(
+                                        value[0].toString(), context);
+                                  });
+                                }
+                              } catch (e) {
+                                if (!context.mounted) return;
+                                toggleIsLoading(context, false);
+
+                                if (!mounted) return;
+                                showErrorPopUp("An error occured", context);
+                              }
                             },
                             text: 'Continue',
                           ),

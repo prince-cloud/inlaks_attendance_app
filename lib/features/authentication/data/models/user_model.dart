@@ -5,9 +5,11 @@ class User {
   final String email, firstName, lastName, phoneNumber;
 
   final bool isActive;
-  final int profile;
   final String profilePicture;
-  final String gender;
+  final String country;
+  final String unit;
+  final String role;
+  final String unitAbbreviation;
 
   const User({
     required this.id,
@@ -16,9 +18,11 @@ class User {
     required this.email,
     required this.phoneNumber,
     required this.isActive,
-    required this.profile,
-    required this.gender,
     required this.profilePicture,
+    required this.country,
+    required this.unit,
+    required this.role,
+    required this.unitAbbreviation,
   });
 
   static User fromMap(Map<String, dynamic> data) {
@@ -28,9 +32,11 @@ class User {
       lastName: data['last_name'] as String,
       email: data['email'] as String,
       phoneNumber: data["phone_number"] as String,
+      country: data["country"]["name"],
+      unit: data["unit"]["name"],
+      unitAbbreviation: data["unit"]["abbreviation"],
+      role: data["role"] as String,
       isActive: data['is_active'] as bool,
-      profile: data['profile'] as int,
-      gender: data['gender'] as String,
       profilePicture: data['profile_picture'] ?? "",
     );
   }

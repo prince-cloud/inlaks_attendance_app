@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inlaks_attendance_app/core/chache/local_cache.dart';
 import 'package:inlaks_attendance_app/core/network/base_service.dart';
-import 'package:inlaks_attendance_app/features/authentication/data/models.dart';
+import 'package:inlaks_attendance_app/features/authentication/data/models/user_model.dart';
 
 class AuthProvider extends ChangeNotifier {
   String? token;
-  bool isLoggedIn = true;
+  bool isLoggedIn = false;
   User? user;
 
   final secureStorage = const FlutterSecureStorage();

@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Inlaks Attendance App',
         theme: ThemeData(
           fontFamily: Fonts.urbanist,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

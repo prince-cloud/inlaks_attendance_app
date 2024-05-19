@@ -87,6 +87,11 @@ PageRouteBuilder<dynamic> _customRoutes(RouteSettings settings) {
         const TaskDetail(),
         settings: settings,
       );
+    case CheckInScreen.id:
+      return _pageBuilder(
+        const CheckInScreen(),
+        settings: settings,
+      );
 
     default:
       return _pageBuilder(
