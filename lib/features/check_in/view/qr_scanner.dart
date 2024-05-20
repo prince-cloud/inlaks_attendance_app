@@ -20,18 +20,6 @@ class _QrScannerState extends State<QrScanner> {
   QRViewController? controller;
   String errorMessage = '';
 
-  // In order to get hot reload to work we need to pause the camera if the platform
-  // is android, or resume the camera if the platform is iOS.
-  @override
-  void reassemble() {
-    super.reassemble();
-    if (Platform.isAndroid) {
-      controller!.pauseCamera();
-    } else if (Platform.isIOS) {
-      controller!.resumeCamera();
-    }
-  }
-
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
@@ -47,24 +35,69 @@ class _QrScannerState extends State<QrScanner> {
 
   checkQrValidaity({required String qrCode}) async {
     toggleIsLoading(context, true);
-    final data = await QrRepository.checkQrValidaity(qrCode: qrCode);
-    if (data == 200) {
-      errorMessage = '';
-      if (!mounted) return;
+    try {
+      final data = await QrRepository.checkQrValidaity(qrCode: qrCode);
+      if (data == 200) {
+        errorMessage = '';
+        if (!mounted) return;
+        toggleIsLoading(context, false);
+        Navigator.pushReplacementNamed(
+          context,
+          CheckInScreen.id,
+          arguments: qrCode,
+        );
+        return;
+      } else {
+        errorMessage = 'Invalid Qr Code';
+        if (!mounted) return;
+        toggleIsLoading(context, false);
+
+        showDialog(
+          context: context,
+          builder: (builder) => AlertDialog(
+            title: const Text('Invalid Qr Code'),
+            content: Text(errorMessage),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    result = null;
+                  });
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    result = null;
+                  });
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Retry'),
+              ),
+            ],
+          ),
+        );
+        setState(() {});
+        return;
+      }
+    } catch (e) {
       toggleIsLoading(context, false);
-      Navigator.pushReplacementNamed(
-        context,
-        CheckInScreen.id,
-        arguments: qrCode,
-      );
-      return;
-    } else {
-      errorMessage = 'Invalid Qr Code';
-      result = null;
-      if (!mounted) return;
-      toggleIsLoading(context, false);
-      setState(() {});
-      return;
+      setState(() {
+        result = null;
+      });
+    }
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    if (Platform.isAndroid) {
+      controller!.pauseCamera();
+    } else if (Platform.isIOS) {
+      controller!.resumeCamera();
     }
   }
 
@@ -77,28 +110,30 @@ class _QrScannerState extends State<QrScanner> {
   @override
   Widget build(BuildContext context) {
     final cs = MediaQuery.of(context).size;
+    var scanArea = (MediaQuery.of(context).size.width < 400 ||
+            MediaQuery.of(context).size.height < 400)
+        ? 150.0
+        : 300.0;
     return Scaffold(
       backgroundColor: Colors.black,
-      body: ListView(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            height: cs.height * 0.5,
-            child: QRView(
-              key: qrKey,
-              onQRViewCreated: _onQRViewCreated,
+      body: Center(
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          height: cs.height * 0.5,
+          child: QRView(
+            key: qrKey,
+            onQRViewCreated: _onQRViewCreated,
+            overlay: QrScannerOverlayShape(
+              borderColor: Colors.green,
+              borderRadius: 10,
+              borderLength: 30,
+              borderWidth: 10,
+              cutOutSize: scanArea,
             ),
           ),
-          Center(
-              child: Text(
-            errorMessage,
-            style: const TextStyle(
-              color: Colors.white,
-            ),
-          ))
-        ],
+        ),
       ),
     );
   }
