@@ -6,9 +6,8 @@ import 'package:inlaks_attendance_app/features/check_in/view/check_in.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QrScanner extends StatefulWidget {
-  const QrScanner({super.key});
-
   static const id = '/qr_scanner';
+  const QrScanner({super.key});
 
   @override
   State<QrScanner> createState() => _QrScannerState();

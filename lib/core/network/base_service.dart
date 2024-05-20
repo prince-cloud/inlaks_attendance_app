@@ -1,4 +1,4 @@
-const hostUrl = 'http://172.20.10.2:8000';
+const hostUrl = 'http://192.168.1.70:8000';
 
 Map<String, String> serviceHeaders = {
   "CONTENT-TYPE": "application/json",

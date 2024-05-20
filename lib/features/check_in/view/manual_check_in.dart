@@ -6,36 +6,38 @@ import 'package:inlaks_attendance_app/core/widgets/generic_button.dart';
 import 'package:inlaks_attendance_app/core/widgets/success_pop_up.dart';
 import 'package:inlaks_attendance_app/features/authentication/provider/auth_provider.dart';
 import 'package:inlaks_attendance_app/features/check_in/data/repository/repository.dart';
-import 'package:inlaks_attendance_app/features/check_in/view/qr_scanner.dart';
 import 'package:inlaks_attendance_app/features/dashboard/providers/attendance_provider.dart';
 import 'package:inlaks_attendance_app/main_page.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class CheckInScreen extends StatefulWidget {
-  static const id = '/checking_screen';
-  const CheckInScreen({super.key, required this.qrCode});
+class ManualCheckInScreen extends StatefulWidget {
+  static const id = '/manual_checking_screen';
+  const ManualCheckInScreen({super.key, required this.qrCode});
 
   final String qrCode;
 
   @override
-  State<CheckInScreen> createState() => _CheckInScreenState();
+  State<ManualCheckInScreen> createState() => _ManualCheckInScreenState();
 }
 
-class _CheckInScreenState extends State<CheckInScreen> {
+class _ManualCheckInScreenState extends State<ManualCheckInScreen> {
   clockStaffInOut({required String qrCode}) async {
-    final response = await QrRepository.clockStaffInOut(qrCode: qrCode);
+    final response = await QrRepository.manualClockOut();
     if (response.statusCode == 200) {
       if (!mounted) return;
       Provider.of<AttendanceProvider>(context, listen: false)
           .getRecentAttendance();
       Navigator.pushReplacementNamed(context, MainPage.id);
-      showSuccessPopUp(content: 'Clock In/Out Success', context: context);
+      showSuccessPopUp(content: 'Clock Out Success', context: context);
       return;
     } else {
       if (!mounted) return;
-      Navigator.pushReplacementNamed(context, QrScanner.id);
-      showErrorPopUp('Something went wrong', context);
+      Navigator.pop(context);
+      showErrorPopUp(
+        'Couldn\'t Clock Out. Please try again or Use QR Scanner',
+        context,
+      );
     }
   }
 
@@ -107,7 +109,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
                     horizontal: cs.width * 0.15,
                   ),
                   child: GenericButton(
-                    text: 'Loading ...',
+                    text: 'Clocking Out ...',
                     onPressed: () {},
                   ),
                 ),

@@ -5,6 +5,7 @@ import 'package:inlaks_attendance_app/features/authentication/provider/auth_prov
 import 'package:inlaks_attendance_app/features/authentication/view/login.dart';
 import 'package:inlaks_attendance_app/features/authentication/view/signup.dart';
 import 'package:inlaks_attendance_app/features/check_in/view/check_in.dart';
+import 'package:inlaks_attendance_app/features/check_in/view/manual_check_in.dart';
 import 'package:inlaks_attendance_app/features/check_in/view/qr_scanner.dart';
 import 'package:inlaks_attendance_app/features/dashboard/view/dashboard.dart';
 import 'package:inlaks_attendance_app/features/task_planner/view/task_detail.dart';
