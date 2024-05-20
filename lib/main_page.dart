@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inlaks_attendance_app/core/utils/custom_colors.dart';
+import 'package:inlaks_attendance_app/features/attendance_statistics/view/statistics.dart';
 import 'package:inlaks_attendance_app/features/authentication/provider/auth_provider.dart';
 import 'package:inlaks_attendance_app/features/check_in/view/qr_scanner.dart';
 import 'package:inlaks_attendance_app/features/dashboard/view/dashboard.dart';
@@ -20,7 +21,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   List pages = const [
     Dashboard(),
-    Dashboard(),
+    AttendanceStatistics(),
     TaskList(),
     Dashboard(),
   ];

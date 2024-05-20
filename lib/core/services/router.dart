@@ -103,6 +103,11 @@ PageRouteBuilder<dynamic> _customRoutes(RouteSettings settings) {
         ),
         settings: settings,
       );
+    case AttendanceStatistics.id:
+      return _pageBuilder(
+        const AttendanceStatistics(),
+        settings: settings,
+      );
 
     default:
       return _pageBuilder(

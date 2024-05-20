@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:inlaks_attendance_app/features/attendance_statistics/view/statistics.dart';
 import 'package:inlaks_attendance_app/features/authentication/provider/auth_provider.dart';
 import 'package:inlaks_attendance_app/features/authentication/view/login.dart';
 import 'package:inlaks_attendance_app/features/authentication/view/signup.dart';
