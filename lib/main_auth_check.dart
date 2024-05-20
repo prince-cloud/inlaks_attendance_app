@@ -28,7 +28,9 @@ class _MainAuthCheckState extends State<MainAuthCheck> {
     final String dataStr = await LocalCache.getAuthData();
     if (dataStr.isEmpty) return;
     try {
+      print("cache data: $dataStr");
       final Map data = jsonDecode(dataStr);
+      print("== user: ${data['user']}");
       authProvider.logIn(
         token: data['access'] as String,
         isLoggedIn: true,

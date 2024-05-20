@@ -88,8 +88,11 @@ PageRouteBuilder<dynamic> _customRoutes(RouteSettings settings) {
         settings: settings,
       );
     case CheckInScreen.id:
+      final String qrCode = settings.arguments as String;
       return _pageBuilder(
-        const CheckInScreen(),
+        CheckInScreen(
+          qrCode: qrCode,
+        ),
         settings: settings,
       );
 

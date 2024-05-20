@@ -14,7 +14,7 @@ class AuthProvider extends ChangeNotifier {
   logIn({required token, required isLoggedIn, required user}) {
     this.token = token;
     this.isLoggedIn = isLoggedIn;
-    // this.user = user;
+    this.user = user;
     serviceHeaders['Authorization'] = "Bearer ${this.token}";
     notifyListeners();
   }
