@@ -6,4 +6,6 @@ class URLS {
   static String fetchQrCode = '$hostUrl/attendance/v1/qr-code/';
   static String markAttendance =
       '$hostUrl/attendance/v1/attendance/mark-attendance/';
+  static String recentAttanceUrl =
+      '$hostUrl/attendance/v1/attendance/get-recent-attendance/';
 }

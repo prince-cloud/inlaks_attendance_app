@@ -11,13 +11,13 @@ PageRouteBuilder<dynamic> _pageBuilder(
 }) {
   return PageRouteBuilder(
     settings: settings,
-    pageBuilder: (_, __, ___) => Consumer<SessionState>(
+    pageBuilder: (_, __, ___) => Consumer<AuthProvider>(
       builder: (context, state, __) {
         final possibleAuthRoutes = [
           LoginScreen.id,
           SignUpScreen.id,
         ];
-        if (state.isLoggedIn && !possibleAuthRoutes.contains(settings.name)) {
+        if (!state.isLoggedIn && !possibleAuthRoutes.contains(settings.name)) {
           WidgetsBinding.instance.addPostFrameCallback((_) async {
             Future<void> recursive() async {
               if (!context.debugDoingBuild && context.mounted) {

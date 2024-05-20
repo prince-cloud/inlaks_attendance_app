@@ -56,7 +56,7 @@ class _QrScannerState extends State<QrScanner> {
           context: context,
           builder: (builder) => AlertDialog(
             title: const Text('Invalid Qr Code'),
-            content: Text(errorMessage),
+            content: const Text('The QR code you scanned is invalid.'),
             actions: [
               TextButton(
                 onPressed: () {
