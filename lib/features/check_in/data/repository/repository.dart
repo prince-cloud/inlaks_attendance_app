@@ -35,4 +35,16 @@ class QrRepository {
       throw "Sorry something happened";
     }
   }
+
+  static manualClockOut() async {
+    try {
+      http.Response response = await http.get(
+        headers: serviceHeaders,
+        Uri.parse(URLS.manualClockInUrl),
+      );
+      return response;
+    } on HttpException {
+      throw "Sorry something happened";
+    }
+  }
 }

@@ -13,13 +13,29 @@ class AttendanceProvider extends ChangeNotifier {
 
   List<AttendanceModel> attandances = [];
 
+  AttendanceModel? currentAttendance;
+
   getRecentAttendance() async {
     try {
       final response = await AttendanceRepository.getRecentAttendance();
       attandances =
           (response as List).map((e) => AttendanceModel.fromJson(e)).toList();
     } catch (e) {
-      print("=== error: $e");
+      setState(ProviderState.error);
+      notifyListeners();
+      return;
+    }
+    setState(ProviderState.success);
+    notifyListeners();
+  }
+
+  getCurrentAttendance() async {
+    try {
+      final response = await AttendanceRepository.getCurrentAttendance();
+      if (response['user'] != null) {
+        currentAttendance = AttendanceModel.fromJson(response);
+      }
+    } catch (e) {
       setState(ProviderState.error);
       notifyListeners();
       return;

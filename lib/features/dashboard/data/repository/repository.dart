@@ -15,9 +15,29 @@ class AttendanceRepository {
         headers: serviceHeaders,
         Uri.parse(URLS.recentAttanceUrl),
       );
+
       if (response.statusCode == 401) {
         SessionLogic(AuthProvider()).handleTokenError(response.body);
         return;
+      }
+    } on HttpException {
+      throw "Sorry something happened";
+    }
+    final data = json.decode(response.body);
+    return data;
+  }
+
+  static getCurrentAttendance() async {
+    http.Response response;
+    try {
+      response = await http.get(
+        headers: serviceHeaders,
+        Uri.parse(URLS.currentAttendanceUrl),
+      );
+
+      if (response.statusCode == 401) {
+        SessionLogic(AuthProvider()).handleTokenError(response.body);
+        return {};
       }
     } on HttpException {
       throw "Sorry something happened";

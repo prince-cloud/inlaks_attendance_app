@@ -95,6 +95,19 @@ PageRouteBuilder<dynamic> _customRoutes(RouteSettings settings) {
         ),
         settings: settings,
       );
+    case ManualCheckInScreen.id:
+      final String qrCode = settings.arguments as String;
+      return _pageBuilder(
+        ManualCheckInScreen(
+          qrCode: qrCode,
+        ),
+        settings: settings,
+      );
+    case AttendanceStatistics.id:
+      return _pageBuilder(
+        const AttendanceStatistics(),
+        settings: settings,
+      );
 
     default:
       return _pageBuilder(

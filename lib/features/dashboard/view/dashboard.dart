@@ -2,10 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inlaks_attendance_app/core/utils/custom_colors.dart';
 import 'package:inlaks_attendance_app/core/utils/fonts.dart';
+import 'package:inlaks_attendance_app/core/utils/provider_state.dart';
 import 'package:inlaks_attendance_app/core/widgets/generic_button.dart';
+import 'package:inlaks_attendance_app/features/check_in/view/manual_check_in.dart';
 import 'package:inlaks_attendance_app/features/check_in/view/qr_scanner.dart';
+import 'package:inlaks_attendance_app/features/dashboard/data/models/attenance_model.dart';
 import 'package:inlaks_attendance_app/features/dashboard/providers/attendance_provider.dart';
-import 'package:inlaks_attendance_app/features/dashboard/widgets/recent_attendance.dart';
+import 'package:inlaks_attendance_app/features/dashboard/widgets/attendance_section.dart';
+import 'package:inlaks_attendance_app/features/dashboard/widgets/clock_in_timer.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class Dashboard extends StatefulWidget {
@@ -22,9 +27,14 @@ class _DashboardState extends State<Dashboard> {
     final cs = MediaQuery.of(context).size;
     return Scaffold(
       body: ChangeNotifierProvider(
-        create: (context) => AttendanceProvider()..getRecentAttendance(),
+        create: (context) => AttendanceProvider()
+          ..getRecentAttendance()
+          ..getCurrentAttendance(),
         child: Consumer<AttendanceProvider>(
-          builder: (context, attedanceProvider, _) => ListView(
+            builder: (context, attedanceProvider, _) {
+          AttendanceModel? currentAttendance =
+              attedanceProvider.currentAttendance;
+          return ListView(
             children: [
               const SizedBox(
                 height: 10,
@@ -65,6 +75,7 @@ class _DashboardState extends State<Dashboard> {
                         borderRadius: BorderRadius.circular(8),
                         color: CustomColors.genericWhite,
                       ),
+                      width: cs.width,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -80,53 +91,87 @@ class _DashboardState extends State<Dashboard> {
                           const SizedBox(
                             height: 10,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                '05 : 20 : 21',
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: Fonts.urbanist,
+                          if (currentAttendance != null)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClockInTimerSection(
+                                  clockInTime: currentAttendance.clockIn,
+                                  clockOutTime: currentAttendance.clockOut,
                                 ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Total Tracked Hours",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    color: CustomColors.genericBlack
+                                        .withAlpha(100),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                if (currentAttendance.clockOut == null)
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      GenericButton(
+                                        text: 'Clock Out',
+                                        onPressed: () => showDialog(
+                                          context: context,
+                                          builder: (builder) => AlertDialog(
+                                            title: const Text('Clock Out'),
+                                            content: Text(
+                                              'Are you sure you want to clock out at: ${DateFormat('hh:mm a - dd/MM/yyyy').format(DateTime.now())}',
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text('Cancel'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                  Navigator.pushNamed(
+                                                    context,
+                                                    ManualCheckInScreen.id,
+                                                    arguments:
+                                                        currentAttendance.uuid,
+                                                  );
+                                                },
+                                                child: const Text('Yes'),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        backgroundColor:
+                                            CustomColors.genericRed,
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                    ],
+                                  ),
+                              ],
+                            ),
+                          if (attedanceProvider.state ==
+                                  ProviderState.success &&
+                              currentAttendance == null)
+                            GenericButton(
+                              text: 'Clock In',
+                              onPressed: () => Navigator.pushNamed(
+                                context,
+                                QrScanner.id,
+                                arguments: false,
                               ),
-                              Container(
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color:
-                                      CustomColors.primaryColor.withAlpha(20),
-                                ),
-                                child: const Icon(CupertinoIcons.time),
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Total Tracked Hours",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: CustomColors.genericBlack.withAlpha(100),
+                              icon: const Icon(CupertinoIcons.qrcode),
+                              backgroundColor: Colors.green,
                             ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          GenericButton(
-                            text: 'Clock Out',
-                            onPressed: () => Navigator.pushNamed(
-                              context,
-                              QrScanner.id,
-                            ),
-                            icon: const Icon(CupertinoIcons.qrcode),
-                            backgroundColor: CustomColors.genericRed,
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
                         ],
                       ),
                     ),
@@ -136,96 +181,10 @@ class _DashboardState extends State<Dashboard> {
               const SizedBox(
                 height: 30,
               ),
-              const Center(
-                child: Column(
-                  children: [
-                    Text(
-                      'My Attendance',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: Fonts.poppins,
-                      ),
-                    ),
-                    Text(
-                      'Last 7 days',
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                color: CustomColors.primaryColor,
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(
-                      width: cs.width * 0.2,
-                      child: Center(
-                        child: Text(
-                          'Date',
-                          style: TextStyle(
-                            color: CustomColors.genericWhite,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: cs.width * 0.2,
-                      child: Center(
-                        child: Text(
-                          'Clock In',
-                          style: TextStyle(
-                            color: CustomColors.genericWhite,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: cs.width * 0.2,
-                      child: Center(
-                        child: Text(
-                          'Clock Out',
-                          style: TextStyle(
-                            color: CustomColors.genericWhite,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: cs.width * 0.2,
-                      child: Center(
-                        child: Text(
-                          'Hrs',
-                          style: TextStyle(
-                            color: CustomColors.genericWhite,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ListView.builder(
-                itemCount: attedanceProvider.attandances.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final attendance = attedanceProvider.attandances[index];
-                  return RecentAttedance(
-                    attendance: attendance,
-                  );
-                },
-              ),
+              const AttendanceSection()
             ],
-          ),
-        ),
+          );
+        }),
       ),
     );
   }

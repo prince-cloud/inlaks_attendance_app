@@ -11,4 +11,8 @@ class URLS {
   static String recentAttanceUrl =
       '$hostUrl/attendance/v1/attendance/get-recent-attendance/';
   static String getTaskUrl = '$hostUrl/attendance/v1/task-planner/';
+  static String currentAttendanceUrl =
+      '$hostUrl/attendance/v1/attendance/get-current-attendance/';
+  static String manualClockInUrl =
+      '$hostUrl/attendance/v1/attendance/manual-clock-out/';
 }
