@@ -3,6 +3,7 @@ import 'package:inlaks_attendance_app/core/services/router.imports.dart';
 import 'package:inlaks_attendance_app/core/utils/fonts.dart';
 import 'package:inlaks_attendance_app/features/authentication/provider/auth_provider.dart';
 import 'package:inlaks_attendance_app/features/dashboard/providers/attendance_provider.dart';
+import 'package:inlaks_attendance_app/features/task_planner/provider/task_provider.dart';
 import 'package:inlaks_attendance_app/main_auth_check.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<AttendanceProvider>(
           create: (context) => AttendanceProvider(),
+        ),
+         ChangeNotifierProvider<TaskProvider>(
+          create: (context) => TaskProvider(),
         ),
       ],
       child: MaterialApp(

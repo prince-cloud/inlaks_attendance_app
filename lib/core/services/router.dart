@@ -84,7 +84,7 @@ PageRouteBuilder<dynamic> _customRoutes(RouteSettings settings) {
       );
     case TaskDetail.id:
       return _pageBuilder(
-        const TaskDetail(),
+        TaskDetail(task:settings.arguments as TaskModel),
         settings: settings,
       );
     case CheckInScreen.id:

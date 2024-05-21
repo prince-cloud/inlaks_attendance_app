@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inlaks_attendance_app/core/utils/custom_colors.dart';
+import 'package:inlaks_attendance_app/core/utils/data_list.dart';
+import 'package:inlaks_attendance_app/core/utils/text_formating.dart';
+import 'package:inlaks_attendance_app/features/task_planner/data/task_model.dart';
 
 class TaskDetail extends StatefulWidget {
+  final TaskModel task;
   static const id = '/task_detail';
 
-  const TaskDetail({super.key});
+  const TaskDetail({super.key, required this.task});
 
   @override
   State<TaskDetail> createState() => _TaskDetailState();
@@ -76,20 +80,20 @@ class _TaskDetailState extends State<TaskDetail> {
             const SizedBox(
               height: 10,
             ),
-            const Text(
-              'Meet with Customer at Prudential Bank for Inlaks Solutions opportunity, Meet with Customer at Prudential Bank for Inlaks Solutions opportunity ...',
+             Text(
+              widget.task.description,
             ),
             const SizedBox(
               height: 20,
             ),
             Row(
               children: [
-                const Column(
+                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    const Row(
                       children: [
-                        Icon(
+                       Icon(
                           CupertinoIcons.time,
                           size: 18,
                         ),
@@ -104,14 +108,14 @@ class _TaskDetailState extends State<TaskDetail> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                   const SizedBox(
                       height: 5,
                     ),
-                    Text("Thur., 21st May 2024"),
-                    SizedBox(
+                    Text(formatDate(widget.task.dueDate)),
+                  const  SizedBox(
                       height: 30,
                     ),
-                    Column(
+                  const  Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -149,12 +153,12 @@ class _TaskDetailState extends State<TaskDetail> {
                         vertical: 5,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.red.withAlpha(40),
+                        color: getPriorityColor(widget.task.priority).withAlpha(40),
                       ),
-                      child: const Text(
-                        'High',
+                      child:  Text(
+                        widget.task.priority,
                         style: TextStyle(
-                          color: Colors.red,
+                          color: getPriorityColor(widget.task.priority),
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -250,7 +254,7 @@ class _TaskDetailState extends State<TaskDetail> {
                 width: cs.width * 0.8,
                 child: TextFormField(
                   decoration: const InputDecoration(
-                    hintText: 'Ad comment',
+                    hintText: 'Add comment',
                     border: InputBorder.none,
                   ),
                 ),

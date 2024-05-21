@@ -1,3 +1,5 @@
+
+
 import 'package:inlaks_attendance_app/core/network/base_service.dart';
 
 class URLS {
@@ -8,4 +10,5 @@ class URLS {
       '$hostUrl/attendance/v1/attendance/mark-attendance/';
   static String recentAttanceUrl =
       '$hostUrl/attendance/v1/attendance/get-recent-attendance/';
+  static String getTaskUrl = '$hostUrl/attendance/v1/task-planner/';
 }
