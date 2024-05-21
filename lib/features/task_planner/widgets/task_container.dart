@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inlaks_attendance_app/core/utils/data_list.dart';
@@ -8,10 +6,14 @@ class TaskContainer extends StatelessWidget {
   final String status;
   final String description;
   final String date;
+  final bool iscompleted;
   const TaskContainer({
     super.key,
     required this.cs,
-    required this.status, required this.description, required this.date,
+    required this.status,
+    required this.description,
+    required this.date,
+    required this.iscompleted,
   });
 
   final Size cs;
@@ -34,8 +36,10 @@ class TaskContainer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           Text(
+          Text(
             description,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -44,12 +48,19 @@ class TaskContainer extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-           Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(date),
-              const Icon(CupertinoIcons.check_mark_circled),
+              iscompleted
+                  ? const Icon(
+                      CupertinoIcons.check_mark_circled_solid,
+                      color: Colors.green,
+                    )
+                  : const Icon(
+                      CupertinoIcons.check_mark_circled,
+                    ),
             ],
           ),
           const SizedBox(

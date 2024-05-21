@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:inlaks_attendance_app/core/utils/custom_colors.dart';
-import 'package:inlaks_attendance_app/core/utils/data_list.dart';
 import 'package:inlaks_attendance_app/core/utils/provider_state.dart';
 import 'package:inlaks_attendance_app/core/utils/text_formating.dart';
-import 'package:inlaks_attendance_app/features/task_planner/data/task_model.dart';
+import 'package:inlaks_attendance_app/features/task_planner/data/models/task_model.dart';
 import 'package:inlaks_attendance_app/features/task_planner/provider/task_provider.dart';
 import 'package:inlaks_attendance_app/features/task_planner/view/task_detail.dart';
 import 'package:inlaks_attendance_app/features/task_planner/widgets/task_container.dart';
@@ -59,9 +58,9 @@ class _TaskListState extends State<TaskList> {
                 ? Consumer<TaskProvider>(
                     builder: (context, taskProvider, _) {
                       if (taskProvider.state == ProviderState.success &&
-                          taskProvider.tasks.isEmpty) {
+                          taskProvider.uncompletedTask.isEmpty) {
                         return const Center(
-                          child: Text('No Task Found'),
+                          child: Text('No Pending Task Found'),
                         );
                       }
 
@@ -69,9 +68,9 @@ class _TaskListState extends State<TaskList> {
                         return ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: taskProvider.tasks.length,
+                          itemCount: taskProvider.uncompletedTask.length,
                           itemBuilder: (context, index) {
-                            final TaskModel task = taskProvider.tasks[index];
+                            final TaskModel task = taskProvider.uncompletedTask[index];
                             return GestureDetector(
                               onTap: () {
                                 Navigator.pushNamed(
@@ -81,6 +80,7 @@ class _TaskListState extends State<TaskList> {
                                 );
                               },
                               child: TaskContainer(
+                                iscompleted: false,
                                 cs: cs,
                                 status: task.priority.titleCase,
                                 description: task.description,
@@ -101,161 +101,52 @@ class _TaskListState extends State<TaskList> {
                       return const SizedBox.shrink();
                     },
                   )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.blue.withAlpha(10),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 20,
-                        ),
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                        ),
-                        width: cs.width,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Meet with Customer at Prudential Bank for Inlaks Solutions opportunity ...',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
+                : Consumer<TaskProvider>(
+                    builder: (context, taskProvider, _) {
+                      if (taskProvider.state == ProviderState.success &&
+                          taskProvider.completedTask.isEmpty) {
+                        return const Center(
+                          child: Text('No Completed Task Found'),
+                        );
+                      }
+
+                      if (taskProvider.state == ProviderState.success) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: taskProvider.completedTask.length,
+                          itemBuilder: (context, index) {
+                            final TaskModel task = taskProvider.completedTask[index];
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  TaskDetail.id,
+                                  arguments: task,
+                                );
+                              },
+                              child: TaskContainer(
+                                iscompleted: true,
+                                cs: cs,
+                                status: task.priority.titleCase,
+                                description: task.description,
+                                date: formatDate(task.dueDate),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text("Thursday, 21st May 2024"),
-                                Icon(
-                                  CupertinoIcons.check_mark_circled_solid,
-                                  color: Colors.green,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  'Priority',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 5,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color:
-                                        getPriorityColor('Low').withAlpha(40),
-                                  ),
-                                  child: Text(
-                                    'Low',
-                                    style: TextStyle(
-                                      color: getPriorityColor('Low'),
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.blue.withAlpha(10),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 20,
-                        ),
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                        ),
-                        width: cs.width,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Meet with Customer at Prudential Bank for Inlaks Solutions opportunity ...',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text("Thursday, 21st May 2024"),
-                                Icon(
-                                  CupertinoIcons.check_mark_circled_solid,
-                                  color: Colors.green,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  'Priority',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 5,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color:
-                                        getPriorityColor('High').withAlpha(40),
-                                  ),
-                                  child: Text(
-                                    'High',
-                                    style: TextStyle(
-                                      color: getPriorityColor('High'),
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                    ],
-                  ),
+                            );
+                          },
+                        );
+                      }
+
+                      if (taskProvider.state == ProviderState.loading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      if (taskProvider.state == ProviderState.error) {
+                        return const Center(
+                            child: Text('Something went wrong!'));
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  )
           ],
         ),
       ),
