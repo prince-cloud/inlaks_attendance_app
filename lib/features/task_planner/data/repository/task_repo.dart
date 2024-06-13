@@ -42,10 +42,9 @@ class TaskRepository {
       final response = await http.get(
         Uri.parse('${URLS.getTaskCommentUrl}?task=$taskId'),
         headers: serviceHeaders,
-        
       );
 
-      if(response.statusCode == 401) {
+      if (response.statusCode == 401) {
         SessionLogic(AuthProvider()).handleTokenError(response.body);
       }
 
@@ -60,6 +59,31 @@ class TaskRepository {
       }
 
       return taskComments;
+    } on HttpException {
+      throw 'Sorry something happened';
+    }
+  }
+
+  static addComment({required int taskId, required String comment}) async {
+    try {
+      final response = await http.post(
+        Uri.parse(URLS.addTaskUrl),
+        headers: serviceHeaders,
+        body: json.encode({
+          'task': taskId,
+          'comment': comment,
+        }),
+      );
+
+    if(response.statusCode == 401){
+      SessionLogic(AuthProvider()).handleTokenError(response.body);
+
+    }
+
+     
+
+
+      return response;
     } on HttpException {
       throw 'Sorry something happened';
     }

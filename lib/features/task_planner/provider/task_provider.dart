@@ -53,17 +53,21 @@ class TaskCommentProvider extends ChangeNotifier {
   }
 
   List<TaskCommentModel> taskComments = [];
+  
   fetchComments({required int taskId}) async {
     setState(ProviderState.loading);
     try {
+      print("== fetching omments");
       final data = await TaskRepository.getTaskComment(taskId: taskId);
       taskComments = data;
 
     } catch (e) {
+      print("== provider erro: $e");
       setState(ProviderState.error);
       notifyListeners();
     }
     setState(ProviderState.success);
+    print("== calling notifiers");
     notifyListeners();
   }
 

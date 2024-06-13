@@ -7,6 +7,7 @@ import 'package:inlaks_attendance_app/features/attendance_statistics/view/statis
 import 'package:inlaks_attendance_app/features/authentication/provider/auth_provider.dart';
 import 'package:inlaks_attendance_app/features/check_in/view/qr_scanner.dart';
 import 'package:inlaks_attendance_app/features/dashboard/view/dashboard.dart';
+import 'package:inlaks_attendance_app/features/profile/view/profile.dart';
 import 'package:inlaks_attendance_app/features/task_planner/view/tasks_list.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +24,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     Dashboard(),
     AttendanceStatistics(),
     TaskList(),
-    Dashboard(),
+    ProfileScreen(),
   ];
   int currentIndex = 0;
   void onTap(int index) {

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inlaks_attendance_app/core/utils/custom_colors.dart';
 
-AppBar customAppBar({required BuildContext context}) {
+AppBar customAppBar({required BuildContext context,String? title, Icon? widget}) {
  return AppBar(
       leading: GestureDetector(
         onTap: () => Navigator.pop(context),
@@ -25,7 +25,7 @@ AppBar customAppBar({required BuildContext context}) {
       actions: [
         GestureDetector(
           onTap: () {},
-          child: Icon(
+          child:  widget ?? Icon(
             CupertinoIcons.app_badge,
             color: CustomColors.genericBlack,
           ),
@@ -35,7 +35,7 @@ AppBar customAppBar({required BuildContext context}) {
         ),
       ],
       title: Text(
-        'Task Detail',
+        title ??'Task Detail',
         style: TextStyle(
           color: CustomColors.primaryTextLight,
           fontSize: 15,

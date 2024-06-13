@@ -16,4 +16,5 @@ class URLS {
   static String manualClockInUrl =
       '$hostUrl/attendance/v1/attendance/manual-clock-out/';
   static String getTaskCommentUrl = '$hostUrl/attendance/v1/task-comment/';
+  static String addTaskUrl = '$hostUrl/attendance/v1/task-comment/';
 }

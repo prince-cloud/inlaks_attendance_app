@@ -108,6 +108,12 @@ PageRouteBuilder<dynamic> _customRoutes(RouteSettings settings) {
         const AttendanceStatistics(),
         settings: settings,
       );
+    case ProfileScreen.id:
+      return _pageBuilder(
+        const ProfileScreen(),
+        settings: settings,
+      );
+
 
     default:
       return _pageBuilder(

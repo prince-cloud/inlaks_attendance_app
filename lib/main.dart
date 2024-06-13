@@ -28,6 +28,9 @@ class MyApp extends StatelessWidget {
          ChangeNotifierProvider<TaskProvider>(
           create: (context) => TaskProvider(),
         ),
+         ChangeNotifierProvider<TaskCommentProvider>(
+          create: (context) => TaskCommentProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
